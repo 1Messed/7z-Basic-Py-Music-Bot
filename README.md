@@ -1,5 +1,7 @@
 # 7z-Basic-Py-Music-Bot
 🍙7z Py Basic Music Bot is a Discord Basic Music bot. And Anyone Can use it! 💖
+# ⭐ It Has Play, Pause, Resume, Help, NowPlaying, Join And Leave
+
 
 # Basic Instructions:
 • For the music bot's essential operations, no additional files are required. However, you must confirm that your Python environment has the necessary dependencies installed.

@@ -27,6 +27,26 @@ async def join(ctx):
 # Command: Leave the voice channel
 @bot.command()
 async def leave(ctx):
+import discord
+from discord.ext import commands
+
+# Create a bot instance
+bot = commands.Bot(command_prefix='-')
+
+# Event: Bot is ready and connected to the server
+@bot.event
+async def on_ready():
+    print(f'Bot is ready. Logged in as {bot.user.name}')
+
+# Command: Join a voice channel
+@bot.command()
+async def join(ctx):
+    channel = ctx.author.voice.channel
+    voice_channel = await channel.connect()
+
+# Command: Leave the voice channel
+@bot.command()
+async def leave(ctx):
     await ctx.voice_client.disconnect()
 
 # Command: Play a song from a YouTube URL
@@ -70,22 +90,19 @@ async def nowplaying(ctx):
     else:
         await ctx.send("I'm not currently playing anything.")
 
-# Command: Skip the currently playing song
+# Command: Show available commands
 @bot.command()
-async def skip(ctx):
-    if ctx.voice_client.is_playing():
-        ctx.voice_client.stop()
-        await ctx.send("Skipping the current song.")
-    else:
-        await ctx.send("I'm not currently playing anything.")
-
-# Function to get the bot prefix based on the server
-def get_prefix(bot, message):
-    # You can modify this function to implement custom prefix logic (e.g., database lookup)
-    return commands.when_mentioned_or(default_prefix)(bot, message)
-
-# Update the bot prefix dynamically
-bot.command_prefix = get_prefix
+async def help(ctx):
+    prefix = bot.command_prefix
+    help_message = f'Available commands:\n\n' \
+                   f'{prefix}join: Join a voice channel.\n' \
+                   f'{prefix}leave: Leave the voice channel.\n' \
+                   f'{prefix}play <url>: Play a song from a YouTube URL.\n' \
+                   f'{prefix}pause: Pause the currently playing song.\n' \
+                   f'{prefix}resume: Resume the currently paused song.\n' \
+                   f'{prefix}nowplaying: Display the currently playing song.\n' \
+                   f'{prefix}help: Show available commands.'
+    await ctx.send(help_message)
 
 # Run the bot with your bot token
 bot.run('YOUR_BOT_TOKEN')
